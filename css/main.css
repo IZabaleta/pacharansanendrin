@@ -572,6 +572,12 @@ video::-internal-media-controls {
     flex-direction: row;
 }
 
+.slider-carrusel img {
+  position: relative;
+  z-index: 10;
+}
+
+
 .slider-carrusel-wrapper {
     overflow-x: scroll;
     overflow-y: hidden;
@@ -679,8 +685,9 @@ video::-internal-media-controls {
         width: 100%;
         height: auto;
         aspect-ratio: 1 / 1;
-        object-fit: cover;
-        transform: scale(1);
+        object-fit: contain;
+        transform: translateX(-60px) ;
+        
         
     }
 }
@@ -689,7 +696,7 @@ video::-internal-media-controls {
     .section-final{
         z-index: -2;
         align-items: center;
-        display: flex;
+        height: 115vh;
         flex-direction: column;
 
         .final-info{
@@ -704,15 +711,19 @@ video::-internal-media-controls {
             }
         }
         
+        .titular{line-height: 5rem;}
         
         img{
             position:absolute;
             bottom: 0;
             right: 0;
-            width: 70%;
+            aspect-ratio: 4 /5 ;
+            width: 50%;
             height: auto;
             z-index: -1;
-            object-fit: cover;
+            object-fit: contain;
+            transform: translateX(10px) ;
+            transform: scalex(-1);
         }
     }
 }
@@ -735,9 +746,12 @@ video::-internal-media-controls {
             }
         }
         
+        .titular{line-height: 6.5rem;}
+
         img{
-            width: 50%;
+            width: 40%;
             object-fit: contain;
+            
         }
     }
 }
