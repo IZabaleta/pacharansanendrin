@@ -75,7 +75,7 @@
 /* Texto */
 .texto{
     font-family: "Malibu";
-    font-size: clamp(0.875rem, 0.721rem + 0.6573vw, 1.3125rem);
+    font-size: clamp(1rem, 0.89rem + 0.4695vw, 1.3125rem);
 }
 
 /* Variables Textos */
@@ -86,7 +86,7 @@
 /* Textos Carrusel */
 .texto-ritual{
   font-family: "Malibu";
-  font-size: clamp(0.875rem, 0.721rem + 0.6573vw, 1.3125rem);
+  font-size: clamp(1rem, 0.89rem + 0.4695vw, 1.3125rem);
 }
 .subtitulo-ritual{
   font-family: "Malibu";

@@ -1,43 +1,79 @@
-// Animaciones de textos e imágenes
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
-// Animación para los elementos con clase .titular
+// TITULARES
 document.querySelectorAll('.titular').forEach(titular => {
-    const split = new SplitText(titular, { type: "words" });
-  
-    gsap.from(split.words, {
-      scrollTrigger: {
-        trigger: titular,
-        start: "top 80%",
-        toggleActions: "play none none none"
-      },
-      opacity: 0,
-      y: 50,
-      stagger: 0.05,
-      duration: 1.5,
-      ease: "power3.out"
-    });
-  
-    // Evitar que las palabras se dividan en nuevas líneas
-    titular.style.wordBreak = 'keep-all';
+  const split = new SplitText(titular, { type: "words" });
+
+  gsap.from(split.words, {
+    scrollTrigger: {
+      trigger: titular,
+      start: "top 80%",
+      toggleActions: "play none none none"
+    },
+    opacity: 0,
+    y: 50,
+    stagger: 0.05,
+    duration: 1.5,
+    ease: "back.out(1.7)"
   });
-  
 
+  titular.style.wordBreak = 'keep-all';
+});
 
-  // Animación para los elementos con clase .texto
-  document.querySelectorAll('.texto,.subtitulo').forEach(texto => {
-    gsap.from(texto, {
-      opacity: 0,
-      y: 20,
-      duration: 1.5,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: texto,
-        start: "top 80%",
-        toggleActions: "play none none none"
+// SUBTÍTULOS
+document.querySelectorAll(".subtitulo").forEach(subtitulo => {
+  gsap.set(subtitulo, { opacity: 1 });
+
+  SplitText.create(subtitulo, {
+    type: "lines",
+    linesClass: "line",
+    autoSplit: true,
+    onSplit: (self) => {
+      gsap.from(self.lines, {
+        scrollTrigger: {
+          trigger: subtitulo,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        },
+        y: 20,
+        opacity: 0,
+        duration: 2.2,
+        ease: "power4.out",
+        stagger: 0.1
+      });
+    }
+  });
+});
+
+// TEXTOS 
+document.fonts.ready.then(() => {
+  document.querySelectorAll(".texto").forEach(texto => {
+    gsap.set(texto, { opacity: 1 });
+
+    SplitText.create(texto, {
+      type: "lines",
+      linesClass: "line",
+      autoSplit: true,
+      mask: "lines",
+      onSplit: (self) => {
+        gsap.from(self.lines, {
+          scrollTrigger: {
+            trigger: texto,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          },
+          yPercent: 100,
+          opacity: 0,
+          duration: 1.6,
+          stagger: 0.1,
+          ease: "expo.out"
+        });
       }
     });
   });
-  
+});
+
+
 
   // Animación fade-in para imágenes
 document.querySelectorAll('img').forEach(imagen => {
