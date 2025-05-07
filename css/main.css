@@ -142,6 +142,13 @@ body{
     background-color: rgba(0, 0, 0, 0.5);
     pointer-events: none;
 }
+video::-internal-media-controls {
+    display: none;
+  }
+  
+  video::-webkit-media-controls {
+    display: none !important;
+  }
 
 @media (min-width: 767px) {
     .section-video{
@@ -459,7 +466,7 @@ body{
 .section-modo{
     overflow-x: hidden;
     width: 100%;
-    height: 100vh;
+    height: 120vh;
 }
 
   .info-modo{
