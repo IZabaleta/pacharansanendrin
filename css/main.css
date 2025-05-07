@@ -99,12 +99,12 @@ body{
     
 
     .bloque-leyenda{
-        grid-column: 1 / 6;
+        grid-column: 1 / 5;
         color: var(--c-blanco);
         z-index: 10;
     }
     .bloque-info{
-        grid-column: -6 / -1;
+        grid-column: -5 / -1;
         z-index: 10;
         
         .titular, .texto{
@@ -154,11 +154,11 @@ video::-internal-media-controls {
     .section-video{
 
         .bloque-leyenda {
-            grid-column: 2 / 6;
+            grid-column: 2 / 5;
             
         }
         .bloque-info{
-            grid-column: -7 / -2;
+            grid-column: -5 / -2;
         }
     }
 }
@@ -389,7 +389,7 @@ video::-internal-media-controls {
         height: 100vh;
         
         p{
-            padding: 11rem;
+            padding: 15rem;
         }
     }
 }
