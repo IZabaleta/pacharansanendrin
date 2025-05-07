@@ -2,8 +2,8 @@ import { Application } from '@splinetool/runtime';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const canvas = document.getElementById('san-endrin');
-    
+    const canvas = document.getElementById('canvas3d');
+
     const app = new Application(canvas);
     
     app
