@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "Cario";
+    src: url(../fonts/Cario-Regular.woff);
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Malibu";
+    src: url(../fonts/Malibu-Sunday-Serif.woff);
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}

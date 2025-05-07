@@ -1,0 +1,711 @@
+body{
+    overflow-x: hidden;
+}
+
+/*
+#botella-pacharan {
+    position: fixed; 
+    top: 0; 
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 100%; 
+    height: 100vh; 
+    z-index: 1000;
+}
+
+
+#botella-pacharan canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+*/
+
+#san-endrin {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+}
+
+
+
+
+/* HERO --------------------------------------------- */
+
+.section-hero {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    
+    /* Fondo SVG */
+    background-image: url('../imgs/San\ Endrín.svg');
+    background-size: 105%; 
+    background-position: 550% 55%;
+    background-repeat: no-repeat;  
+    
+    z-index: 1;
+}
+
+.claim, .subclaim {
+    grid-column: 2 / 6;
+    text-align: center;
+}
+
+@media (min-width: 767px) {
+
+    
+    .titular{
+        line-height: 7rem;
+    }
+    .subclaim, .claim{
+        grid-column: 3 / 7;
+    }
+    .section-hero{
+        background-size: 65% 65%;
+        background-position: -30% 65%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-hero{
+        background-size: 65% 65%;
+        background-position: -30% 110%;
+
+        .claim{
+            grid-column: 1 / -1;
+        }
+        .titular{
+            line-height: 0.8em;
+        }
+
+        .subclaim{
+            grid-column: 7 / 10;
+            text-align: right;
+        }
+    }
+}
+
+/* VIDEO --------------------------------------------- */
+
+.section-video{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    align-content: space-around;
+    
+
+    .bloque-leyenda{
+        grid-column: 1 / 6;
+        color: var(--c-blanco);
+        z-index: 10;
+    }
+    .bloque-info{
+        grid-column: -6 / -1;
+        z-index: 10;
+        
+        .titular, .texto{
+            color: var(--c-blanco);
+        }
+    }
+}
+
+
+.section-video .video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    transform-origin: center center;
+    transition: transform 0.1s linear;
+}
+
+.section-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.section-video .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+@media (min-width: 767px) {
+    .section-video{
+
+        .bloque-leyenda {
+            grid-column: 2 / 6;
+            
+        }
+        .bloque-info{
+            grid-column: -7 / -2;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-video.grid-layout {
+      grid-template-columns: repeat(var(--columns-desktop), 1fr);
+      grid-template-rows: auto auto;
+    }
+  
+    .section-video .bloque-leyenda {
+      grid-column: 2 / 6;
+      grid-row: 1; 
+    }
+  
+    .section-video .bloque-info {
+      grid-column: 6 / 10;
+      grid-row: 2;
+    }
+  }
+
+/* HISTORIA COMPARTIDA --------------------------------------------- */
+
+.section-historia{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    align-content: space-between;
+
+    .bloque-historia{
+        grid-column: 1 / -1;
+        z-index: 10;        
+    }
+    .bloque-compartida{
+        grid-column: 1 / -1;
+        z-index: 10;
+    }
+}
+
+.section-historia img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; 
+    z-index: -1;
+    object-fit: cover;
+}
+
+@media (min-width: 767px) {
+    .section-historia{
+        align-content: space-around;
+
+        .bloque-historia {
+            grid-column: 2 / 7;
+            grid-row: 1;
+          }
+        .bloque-compartida{
+            grid-column: 2 / 8;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-historia.grid-layout {
+      grid-template-columns: repeat(var(--columns-desktop), 1fr);
+      grid-template-rows: auto auto;
+
+
+      .bloque-historia {
+        grid-column: 2 / 7;
+        grid-row: 1;
+      }
+    
+      .bloque-compartida {
+        grid-column: 5 / 10;
+        grid-row: 2;
+      }
+    }
+  }
+
+/* MÁS QUE UN PACHARÁN --------------------------------------------- */
+
+.section-declaracion {
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    height: 120vh;
+    z-index: 2000;
+    background-color: var(--c-blanco);
+  }
+  
+  .declaración-info-inicial,
+  .declaración-info-final {
+    grid-column: 1 / -1;
+  }
+  
+  .declaracion-imgs {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .img-wrapper {
+    position: absolute;
+    width: 290px;
+    height: auto;
+    z-index: 10;
+    cursor: grab;
+    touch-action: none; 
+  }
+  
+  .img-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none; 
+  }
+  
+  
+  .img-1 {
+    top: -200%;
+    left: 110%;
+    scale: 0.75;
+    transform: rotate(-20deg);
+  }
+  .img-2 {
+    top: 100%;
+    left: 350%;
+    scale: 0.75;
+    transform: rotate(-15deg);
+  }
+  .img-3 {
+    top: -480%;
+    left: 370%;
+    scale: 0.75;
+    transform: rotate(20deg);
+  }
+  
+  /* TABLET */
+  @media (min-width: 768px) {
+    .section-declaracion {
+      align-content: space-around;
+    }
+  
+    .declaración-info-inicial {
+      grid-column: 2 / 8;
+    }
+  
+    .declaración-info-final {
+      grid-column: 2 / 6;
+    }
+  
+    .img-1 {
+      top: 75%;
+      left: -520%;
+      scale: 0.95;
+      transform: rotate(-20deg);
+    }
+    .img-2 {
+      top: 140%;
+      left: -330%;
+      scale: 0.95;
+      transform: rotate(-15deg);
+    }
+    .img-3 {
+      top: -10%;
+      left: -250%;
+      scale: 0.95;
+      transform: rotate(20deg);
+    }
+  }
+  
+  /* DESKTOP */
+  @media (min-width: 1024px) {
+    .img-1 {
+      top: 70%;
+      left: -460%;
+      scale: 1.1;
+      transform: rotate(-20deg);
+    }
+    .img-2 {
+      top: 100%;
+      left: -30%;
+      scale: 1.1;
+      transform: rotate(-15deg);
+    }
+    .img-3 {
+      top: 10%;
+      left: -130%;
+      scale: 1.1;
+      transform: rotate(20deg);
+    }
+  }
+  
+
+/* LO IMPORTANTE --------------------------------------------- */
+
+.section-importante{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+
+    p{
+        z-index: 1;
+        color: var(--c-blanco);
+    }
+}
+
+.section-importante img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+@media (min-width: 767px) {
+    .section-importante{
+        height: 50vh;
+    }
+}
+@media (min-width: 1024px) {
+    .section-importante{
+        height: 100vh;
+        
+        p{
+            padding: 11rem;
+        }
+    }
+}
+
+/* RECETA FAMILIAR --------------------------------------------- */
+
+.section-familiar {
+    background-color: var(--bg-pacharan);
+  
+    .info-familiar {
+      width: 100%;
+      height: 50vh;
+      grid-column: 1 / 6;
+      align-content: center;
+
+      p {
+        color: var(--c-blanco);
+      }
+    }
+  
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 5%;
+      grid-column: 1 / -1;
+      aspect-ratio: 1;
+    }
+  }
+
+@media (min-width: 767px) {
+    .section-familiar{
+        display: flex;
+        flex-direction: row;
+        height: 50vh;
+
+        .info-familiar{
+            width: 50%;
+        }
+
+        img{
+            width: 50%;
+            aspect-ratio: 4 / 5;
+            object-position: center;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-familiar{
+        display: flex;
+        flex-direction: row;
+        height: 100vh;
+        align-items: center;
+
+        .info-familiar{
+            width: 50%;
+        
+            p{
+                margin: 4rem;
+            }
+        }
+
+        img{
+            width: 50%;
+            aspect-ratio: 4 / 5;
+            object-position: center;
+        }
+    }
+}
+
+/* MODO SAN ENDRÍN --------------------------------------------- */
+  
+.section-modo{
+    overflow-x: hidden;
+    width: 100%;
+    height: 100vh;
+}
+
+  .info-modo{
+    grid-column: 1 / -1;
+  }
+
+  .contenido-modo{
+    grid-column: 1 / -1;
+
+    p{
+        grid-column: 2 / 6;
+    }
+  }
+
+  .contenido-modo-imgs {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+  }
+  
+  .contenido-modo-imgs img {
+    width: 50%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+  }
+
+@media (min-width: 767px) {
+    .section-modo{
+        
+        .info-modo{
+            grid-column: 2 / 7;
+        }
+
+        .contenido-modo{
+            grid-column: 3 / 8;
+        }
+        
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-modo{
+        align-content: center;
+
+        .info-modo{
+            grid-column: 2 / 6;
+        }
+
+        .contenido-modo{
+            grid-column: 7 / 10;
+        }
+        
+    }
+}
+
+/* RITUALES --------------------------------------------- */
+
+.rituales-info p{
+    width: 100%;
+    height: auto;
+}
+
+.rituales-info div, p{
+    grid-column: 1 /-1;
+}
+
+.card{
+    border: 1px solid var(--c-pacharan);
+    min-width: 320px;
+
+    img{
+        border-bottom: 1px solid var(--c-pacharan);
+        width: 100%;
+        aspect-ratio: 4/5;
+        object-fit: cover;
+        object-position: center;
+    }
+
+}
+.slider-carrusel{
+    display: flex;
+    flex-direction: row;
+}
+
+.slider-carrusel-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    width: 100%;
+    position: relative;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; 
+    cursor: grab;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+
+.slider-carrusel-wrapper.dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+.slider-carrusel-wrapper::-webkit-scrollbar {
+    display: none; 
+}
+  
+
+@media (min-width: 767px) {
+    .section-rituales{
+        
+        .rituales-info-1{
+            grid-column: 1 / 6;
+        }
+        .rituales-info-2{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .subtitulo{
+               width: 40%;
+            }
+            .texto{
+                width: 40%;
+                margin-top: 0;
+            }
+        }
+
+        .card{
+            width: 45%;
+        }
+
+        .slider-carrusel{
+            display: flex;
+            flex-direction: row;
+        }
+        
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-rituales {
+  
+      .rituales-info-1 {
+        grid-column: 2 / 6;
+      }
+  
+      .rituales-info-2 {
+        
+        
+        grid-column: 2 / 10;
+  
+        .subtitulo {
+          grid-column: 1 / 8;
+        }
+  
+        .texto {
+          grid-column: 8 / 12;
+        }
+      }
+  
+      .card {
+        min-width: 360px;
+      }
+    }
+  }
+/* FINAL DE LA HISTORIA --------------------------------------------- */
+
+.section-final {
+    background-color: var(--bg-pacharan);
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    
+    .final-info {
+        grid-column: 1 / -1;
+        p {
+            color: var(--c-blanco);
+        }
+    }
+
+    img {
+        position: absolute;
+        grid-column: 1 /-1;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        transform: scale(1);
+        
+    }
+}
+
+@media (min-width: 767px) {
+    .section-final{
+        z-index: -2;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        .final-info{
+            
+            .texto{
+                width: 50%;
+            }
+            .subtitulo{
+                text-align: left;
+                margin: 0;
+                margin-top: 1.25rem;
+            }
+        }
+        
+        
+        img{
+            position:absolute;
+            bottom: 0;
+            right: 0;
+            width: 70%;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .section-final{
+
+        height: 100vh;
+        
+
+        .final-info{
+            flex-direction: row;
+
+            .final-info-texto{
+                
+
+                .texto{
+                    width: 35%;
+                }
+            }
+        }
+        
+        img{
+            width: 50%;
+            object-fit: contain;
+        }
+    }
+}

@@ -1,0 +1,188 @@
+/* VARIABLES ------------------------------ */
+:root{
+    /* Colores */
+    --c-pacharan: #A6323B;
+    --c-blanco: #fff;
+    --c-gris: #F0F0F0;
+
+    /* Colores de fondo */
+    --bg-pacharan: var(--c-pacharan);
+    --bg-blanco: var(--c-blanco);
+    --bg-gris: var(--c-gris);
+
+    /* Espaciados y márgenes */
+    --margin: 20px; /* Margen lateral */
+    --gutter: 20px; /* Espaciado entre columnas */
+
+    /* Número de columnas en cada dispositivo */
+    --columns-mobile: 6;  /* Móvil */
+    --columns-tablet: 8;  /* Tablet */
+    --columns-desktop: 10; /* Desktop */
+
+    /* Variables Align Content */
+    --align-content-start: flex-start;
+    --align-content-end: flex-end;
+    --align-content-center: center;
+    --align-content-between: space-between;
+    --align-content-around: space-around;
+    --align-content-evenly: space-evenly;
+    --align-content-stretch: stretch;
+
+    /* Variables flex */
+    --display-flex: flex;
+
+    --align-items-start: flex-start;
+    --align-items-center: center;
+    --align-items-end: flex-end;
+
+    --justify-content-start: flex-start;
+    --justify-content-center: center;
+    --justify-content-end: flex-end;
+    --justify-content-between: space-between;
+    --justify-content-around: space-around;
+    --justify-content-evenly: space-evenly;
+}
+
+/* MÉTODOS ATÓMICOS ------------------------------ */
+
+
+/* Tamaños Tipografías */
+
+/* Titular */
+.titular{
+    font-family: "Cario";
+    text-transform: uppercase;
+    font-size: clamp(5rem, 3.6796rem + 5.6338vw, 8.75rem);
+    line-height: clamp(1em, 0.5em + 1vw, 1.2em);
+    word-break: keep-all;
+}
+
+@media (min-width: 767px) {
+  .titular{
+    line-height: 5rem;
+  }
+}
+
+/* Subtítulo */
+.subtitulo{
+    font-family: "Malibu";
+    text-transform: uppercase;
+    font-size: clamp(1.3125rem, 0.8944rem + 1.784vw, 2.5rem);
+    letter-spacing: -1px;
+    line-height: 1em;
+}
+
+/* Texto */
+.texto{
+    font-family: "Malibu";
+    font-size: clamp(0.875rem, 0.721rem + 0.6573vw, 1.3125rem);
+}
+
+/* Variables Textos */
+.titular, .subtitulo, .texto, .texto-ritual, .subtitulo-ritual{
+    color: var(--c-pacharan);
+}
+
+/* Textos Carrusel */
+.texto-ritual{
+  font-family: "Malibu";
+  font-size: clamp(0.875rem, 0.721rem + 0.6573vw, 1.3125rem);
+}
+.subtitulo-ritual{
+  font-family: "Malibu";
+    text-transform: uppercase;
+    font-size: clamp(1.3125rem, 0.8944rem + 1.784vw, 2.5rem);
+    letter-spacing: -1px;
+    line-height: 1em;
+}
+
+/* Grid */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(var(--columns-mobile), 1fr);
+    gap: var(--gutter);
+  }
+  
+  /* iPad (desde 768px) */
+  @media (min-width: 767px) {
+    .grid-layout {
+      grid-template-columns: repeat(var(--columns-tablet), 1fr);
+    }
+  }
+  
+  /* Desktop (desde 1024px) */
+  @media (min-width: 1024px) {
+    .grid-layout {
+      grid-template-columns: repeat(var(--columns-desktop), 1fr);
+    }
+}
+
+/* Flex Box */
+.flex {
+    display: flex;
+}
+
+/* Align items */
+.items-start {
+    align-items: flex-start;
+}
+.items-center {
+    align-items: center;
+}
+.items-end {
+    align-items: flex-end;
+}
+
+/* Justify content */
+.justify-start {
+    justify-content: flex-start;
+}
+.justify-center {
+    justify-content: center;
+}
+.justify-end {
+    justify-content: flex-end;
+}
+.justify-between {
+    justify-content: space-between;
+}
+.justify-around {
+    justify-content: space-around;
+}
+.justify-evenly {
+    justify-content: space-evenly;
+}
+    
+
+/* Text Direction */
+  .txt-cnt{
+    text-align: center;
+  }
+  .txt-lft{
+    text-align: left;
+  }
+  .txt-rght{
+    text-align: right;
+  }
+  .w-break{
+    word-break: break-all;
+  }
+
+
+/*  Margin */
+  .m-0{
+    margin: 0.5rem;
+  }
+  .m-1{
+    margin:1.75rem
+  }
+  .m-2{
+    margin: 2.25rem;
+  }
+
+  .m-top-1{
+    margin-top: 1.25rem;
+  }
+  .m-top-2{
+    margin-top: 2.5rem;
+  }
