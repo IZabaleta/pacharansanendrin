@@ -75,19 +75,19 @@ document.fonts.ready.then(() => {
 
 
 
-  // Animación fade-in para imágenes
+
 document.querySelectorAll('img').forEach(imagen => {
-  gsap.from(imagen, {
-    scrollTrigger: {
-      trigger: imagen,
-      start: "top 80%",
-      toggleActions: "play none none none"
-    },
-    opacity: 0,
-    y: 30,
-    duration: 1.2,
-    ease: "power2.out"
-  });
+  if (!imagen.closest('.section-rituales')) {
+    gsap.from(imagen, {
+      scrollTrigger: {
+        trigger: imagen,
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      opacity: 0,
+      y: 30,
+      duration: 1.2,
+      ease: "power2.out"
+    });
+  }
 });
-
-
