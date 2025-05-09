@@ -65,8 +65,8 @@ spline-viewer {
     img{
       position: absolute;
         grid-column: 1 / -1;
-        width: 35%;
-        transform: translateX(-65px) translateY(45px);
+        width: 50%;
+        transform: translateX(-165px) translateY(45px);
 
     }
 }
@@ -110,8 +110,8 @@ spline-viewer {
     }
 
     .section-hero img {
-        width: 25%;
-        transform: translateX(-450px) translateY(150px);
+        width: 33%;
+        transform: translateX(-650px) translateY(150px);
       }
 }
 
