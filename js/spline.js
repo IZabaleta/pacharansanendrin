@@ -7,219 +7,305 @@ const { gsap, ScrollTrigger } = window;
 gsap.registerPlugin(ScrollTrigger);
 
 // Variables para el movimiento
-let currentRotation = { 
-  x: -1.25159265358979,   // Valor inicial X
-  y: -0.701592653589793,  // Valor inicial Y
-  z: -0.991592653589793   // Valor inicial Z
+const initialRotation = { 
+  x: -4 * (Math.PI / 180),  // Convertir -4 grados a radianes
+  y: 353 * (Math.PI / 180), // Convertir 353 grados a radianes
+  z: 360 * (Math.PI / 180)  // Convertir 360 grados a radianes
 };
+let currentRotation = { ...initialRotation };
+
+// --- CONFIGURACIÓN DE ESCALA Y POSICIÓN ---
+// Ajusta estos valores para cambiar el tamaño y posición de la botella
+const CONFIG = {
+  // Posición vertical (más alto = más arriba, más bajo = más abajo)
+  yOffset: -1000,
+  
+  // Escalas base para cada dispositivo (desktop reducido 10%)
+  scales: {
+    mobile: 2.9,    // Sin cambios
+    tablet: 7.0,    // Sin cambios
+    desktop: 6.5    // Reducido de 7.2 a 6.5 (-10%)
+  },
+  
+  // Porcentaje de altura que debe ocupar la botella en la pantalla
+  heightPercentages: {
+    mobile: 50,     // Sin cambios
+    tablet: 66,     // Sin cambios
+    desktop: 40     // Reducido de 45 a 40 (-10%)
+  },
+  
+  // Ajustes específicos por dispositivo
+  deviceAdjustments: {
+    mobile: 0.85,   // Sin cambios
+    tablet: 1.0,    // Sin cambios
+    desktop: 0.95   // Reducido de 1.0 a 0.95 para compensar
+  },
+  
+  // Límites de escala (ajustados por dispositivo)
+  scaleLimits: {
+    mobile: {
+      min: 2.5,     // Sin cambios
+      max: 3.5      // Sin cambios
+    },
+    tablet: {
+      min: 4.8,     // Sin cambios
+      max: 8.4      // Sin cambios
+    },
+    desktop: {
+      min: 4.5,     // Reducido de 5.0 a 4.5 (-10%)
+      max: 7.7      // Reducido de 8.5 a 7.7 (-10%)
+    }
+  }
+};
+
+// --- AJUSTE: Centrado vertical ---
+function getCenteredYPosition(offset = 0) {
+  return offset; // Usar directamente el offset sin añadir 0
+}
+
 let currentPosition = { 
   x: 0,
-  y: 50,    // Valor inicial Y
+  y: getCenteredYPosition(CONFIG.yOffset),
   z: 0 
 };
 let currentScale = 1;
-let totalScrollProgress = 0;
 
-// Valores finales para la transición
+// Nueva variable para la posición Y fija
+const fixedYPosition = getCenteredYPosition(CONFIG.yOffset);
+let hasReachedFixedPosition = false;
+
+// Valores finales para la rotación (iguales a los iniciales para mantener la misma posición)
 const finalRotation = {
-  x: 2.53840734641021,
-  y: -3.14159265358979,
-  z: -3.14159265358979
-};
-const finalPosition = {
-  y: 50
+  x: initialRotation.x + Math.PI * 4, // Añadir dos vueltas completas (4π radianes)
+  y: initialRotation.y + Math.PI * 4,
+  z: initialRotation.z + Math.PI * 4
 };
 
-// Function to calculate bottle scale based on viewport
+// Función simplificada para calcular la escala
 function calculateBottleScale() {
+  const vw = window.innerWidth;
   const vh = window.innerHeight;
-  const targetHeight = vh * 0.3; // 30vh
-  const baseScale = 2.5; // Increased base scale
-  const scaleFactor = targetHeight / (vh * 0.2); // Reduced divisor to make it larger
-  return baseScale * scaleFactor;
+  
+  // Determinar el tipo de dispositivo
+  const isMobile = vw <= 768;
+  const isTablet = vw > 768 && vw <= 1024;
+  const deviceType = isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop';
+  
+  // Obtener configuración específica del dispositivo
+  const baseScale = CONFIG.scales[deviceType];
+  const heightPercentage = CONFIG.heightPercentages[deviceType] / 100;
+  const deviceAdjustment = CONFIG.deviceAdjustments[deviceType];
+  const { min, max } = CONFIG.scaleLimits[deviceType];
+  
+  // Calcular la altura objetivo
+  const targetHeight = vh * heightPercentage;
+  
+  // Calcular la escala base
+  let finalScale = (targetHeight / 1000) * baseScale;
+  
+  // Aplicar ajuste específico del dispositivo
+  finalScale *= deviceAdjustment;
+  
+  // Aplicar límites de escala específicos del dispositivo
+  finalScale = Math.min(Math.max(finalScale, min), max);
+  
+  // Log para debugging
+  console.log(`Device: ${deviceType}, Scale: ${finalScale.toFixed(2)}, Viewport: ${vw}x${vh}, Height%: ${heightPercentage * 100}%`);
+  
+  return finalScale;
 }
 
 // Function to update bottle scale
 function updateBottleScale(botellaObject) {
   if (!botellaObject) return;
+  
   const scale = calculateBottleScale();
-  botellaObject.scale.set(scale, scale, scale);
+  console.log('Updating bottle scale:', scale, 'for viewport:', window.innerWidth, 'x', window.innerHeight, 
+    'device type:', window.innerWidth <= 768 ? 'mobile' : window.innerWidth <= 1024 ? 'tablet' : 'desktop');
+  
+  // Aplicamos la escala con una transición más suave
+  gsap.to(botellaObject.scale, {
+    x: scale,
+    y: scale,
+    z: scale,
+    duration: 0.8, // Aumentamos la duración para una transición más suave
+    ease: "power2.inOut" // Cambiamos a inOut para una transición más suave
+  });
 }
 
 window.onload = () => {
-  // Get the canvas element
   const canvas = document.getElementById('canvas3d');
   if (!canvas) {
     console.error('Canvas element not found');
     return;
   }
 
-  // Create a new application with minimal settings
   const app = new Application(canvas, {
-    interactions: {
-      hover: false,
-      drag: false,
-      scroll: false
-    },
-    camera: {
-      controls: false,
-      autoRotate: false,
-      autoRotateSpeed: 0
-    },
-    animations: {
-      autoPlay: false
-    }
+    interactions: { hover: false, drag: false, scroll: false },
+    camera: { controls: false, autoRotate: false, autoRotateSpeed: 0 },
+    animations: { autoPlay: false }
   });
 
   let botellaObject;
   let baseScale = calculateBottleScale();
   
-  // Animation loop for continuous movement
+  // Función para la animación inicial de entrada
+  function animateInitialEntry(botellaObject) {
+    if (!botellaObject) return;
+
+    // Configurar posición inicial (debajo de la posición final)
+    const startY = fixedYPosition - 300; // La botella empieza 300 unidades más abajo
+    botellaObject.position.set(currentPosition.x, startY, currentPosition.z);
+    
+    // Configurar opacidad inicial
+    if (botellaObject.material) {
+      botellaObject.material.opacity = 0;
+      botellaObject.material.transparent = true;
+    }
+
+    // Crear la animación de entrada
+    gsap.to(botellaObject.position, {
+      y: fixedYPosition,
+      duration: 1.5,
+      ease: "power2.out"
+    });
+
+    // Animación de fade in
+    if (botellaObject.material) {
+      gsap.to(botellaObject.material, {
+        opacity: 1,
+        duration: 1.2,
+        ease: "power2.inOut"
+      });
+    }
+  }
+
   function animate() {
     if (botellaObject) {
-      // Aplicamos todas las transformaciones con interpolación suave
-      botellaObject.rotation.set(
-        currentRotation.x,
-        currentRotation.y,
-        currentRotation.z
-      );
-      botellaObject.position.set(
-        currentPosition.x,
-        currentPosition.y,
-        currentPosition.z
-      );
+      botellaObject.rotation.set(currentRotation.x, currentRotation.y, currentRotation.z);
+      botellaObject.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
       const finalScale = baseScale * currentScale;
       botellaObject.scale.set(finalScale, finalScale, finalScale);
     }
     requestAnimationFrame(animate);
   }
 
-  // Load the scene
   console.log('Loading scene...');
-  app.load('https://prod.spline.design/VkjLoeqnh6twow4i/scene.splinecode')
+  // Añadir timestamp para evitar caché
+  const timestamp = new Date().getTime();
+  app.load(`https://prod.spline.design/VkjLoeqnh6twow4i/scene.splinecode?t=${timestamp}`)
     .then(() => {
       console.log('Scene loaded successfully');
       
-      // Find the bottle object
-      const possibleNames = ['botella', 'Botella', 'BOTTLE', 'bottle', 'Pacharan', 'pacharan'];
+      // Buscar la botella
+      const possibleNames = [
+        'botella', 'Botella', 'BOTTLE', 'bottle', 
+        'Pacharan', 'pacharan', 'Botella_Pacharan', 
+        'botella_pacharan', 'Botella_Pacharan_New',
+        'botella_pacharan_new'
+      ];
+      
+      let found = false;
       for (const name of possibleNames) {
         const obj = app.findObjectByName(name);
         if (obj) {
           console.log(`Found object with name: "${name}"`);
           botellaObject = obj;
+          found = true;
           break;
         }
       }
-      
-      if (!botellaObject) {
-        console.error('Bottle object not found');
+
+      if (!found) {
+        console.error('Bottle object not found. Available objects:', app.scene.children.map(obj => obj.name));
         return;
       }
 
-      // Initial scale setup
+      // Aplicar la animación inicial
+      animateInitialEntry(botellaObject);
+      
       updateBottleScale(botellaObject);
-
-      // Start animation loop
       animate();
 
-      // Handle window resize
+      // Aseguramos que la escala se actualice en los eventos de cambio de tamaño y orientación
       window.addEventListener('resize', () => {
-        baseScale = calculateBottleScale();
+        calculateBottleScale();
+        // Añadimos un pequeño delay para asegurar que la orientación se ha actualizado
+        setTimeout(calculateBottleScale, 100);
       });
 
-      // Configuración común para todas las secciones
-      const sectionConfig = {
-        scrub: {
-          duration: 0.5, // Aumentamos la duración para más suavidad
-          ease: "power2.inOut"
-        },
-        onUpdate: (self) => {
-          // Obtener la última sección del documento
-          const sections = document.querySelectorAll('section');
-          const lastSection = sections[sections.length - 1];
-          if (!lastSection) return;
+      window.addEventListener('orientationchange', () => {
+        // Esperamos a que la orientación se complete
+        setTimeout(calculateBottleScale, 100);
+      });
 
-          // Calcular el progreso basado en la posición actual del scroll
-          const scrollPosition = window.scrollY;
-          const windowHeight = window.innerHeight;
-          const documentHeight = document.documentElement.scrollHeight;
-          
-          // Calcular el punto de inicio y fin de la animación
-          const startPoint = 0;
-          const endPoint = lastSection.offsetTop + lastSection.offsetHeight;
-          
-          // Calcular el progreso normalizado (0 a 1)
-          const rawProgress = (scrollPosition - startPoint) / (endPoint - startPoint);
-          totalScrollProgress = Math.min(Math.max(rawProgress, 0), 1);
-          
-          // Aplicar una función de easing para suavizar la transición en ambas direcciones
-          const easedProgress = easeInOutCubic(totalScrollProgress);
-          
-          // Interpolar suavemente entre los valores iniciales y finales
-          const interpolate = (start, end, progress) => {
-            // Asegurar que la interpolación funcione en ambas direcciones
-            const diff = end - start;
-            // Normalizar la diferencia para evitar saltos en la rotación
-            const normalizedDiff = ((diff + Math.PI) % (2 * Math.PI)) - Math.PI;
-            return start + normalizedDiff * progress;
-          };
-          
-          // Aplicar interpolación a cada eje de rotación
-          currentRotation.x = interpolate(currentRotation.x, finalRotation.x, easedProgress);
-          currentRotation.y = interpolate(currentRotation.y, finalRotation.y, easedProgress);
-          currentRotation.z = interpolate(currentRotation.z, finalRotation.z, easedProgress);
-          
-          // Mantener la posición Y constante
-          currentPosition.y = 50;
-        }
+      const sections = document.querySelectorAll('section');
+      const calculateTotalHeight = () => {
+        const docHeight = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight,
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        );
+        return docHeight + 500;
       };
 
-      // Función de easing mejorada para ambas direcciones
-      function easeInOutCubic(t) {
-        // Asegurar que t esté entre 0 y 1
-        t = Math.max(0, Math.min(1, t));
-        // Aplicar easing en ambas direcciones con una curva más suave
-        return t < 0.5
-          ? 4 * t * t * t
-          : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      }
+      const totalHeight = calculateTotalHeight();
 
-      // Aplicar animación hasta la última sección
+      // Animación principal - rotación doble vuelta
       gsap.to({}, {
         scrollTrigger: {
           trigger: "body",
           start: "top top",
-          end: () => {
-            const sections = document.querySelectorAll('section');
-            const lastSection = sections[sections.length - 1];
-            return lastSection ? `+=${lastSection.offsetTop + lastSection.offsetHeight}` : "+=100%";
-          },
-          ...sectionConfig
+          end: `+=${totalHeight}`,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const progress = self.progress;
+
+            // Rotación simple y directa
+            const interpolate = (start, end, progress) => {
+              // Asegurar que la rotación sea suave y continua
+              let diff = end - start;
+              // Normalizar la diferencia para evitar saltos
+              if (diff > Math.PI) diff -= Math.PI * 2;
+              if (diff < -Math.PI) diff += Math.PI * 2;
+              return start + diff * progress;
+            };
+
+            // Aplicar rotación
+            currentRotation.x = interpolate(initialRotation.x, finalRotation.x, progress);
+            currentRotation.y = interpolate(initialRotation.y, finalRotation.y, progress);
+            currentRotation.z = interpolate(initialRotation.z, finalRotation.z, progress);
+
+            // Mantener la posición Y constante en fixedYPosition
+            currentPosition.y = fixedYPosition;
+
+            // Actualizar la posición y rotación de la botella
+            if (botellaObject) {
+              botellaObject.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
+              botellaObject.rotation.set(currentRotation.x, currentRotation.y, currentRotation.z);
+              botellaObject.updateMatrix();
+            }
+          }
         }
       });
 
-      // Fade out animation con soporte para scroll reverso
+      // Fade out
       if (botellaObject.material && typeof botellaObject.material.opacity !== 'undefined') {
         gsap.to(botellaObject.material, {
           scrollTrigger: {
             trigger: "body",
             start: "top top",
-            end: () => {
-              const sections = document.querySelectorAll('section');
-              const lastSection = sections[sections.length - 1];
-              return lastSection ? `+=${lastSection.offsetTop + lastSection.offsetHeight}` : "+=100%";
-            },
-            scrub: {
-              duration: 0.5,
-              ease: "power2.inOut"
-            },
+            end: `+=${totalHeight}`,
+            scrub: 1,
+            invalidateOnRefresh: true,
             onUpdate: (self) => {
-              // Fade out/in más gradual y suave en ambas direcciones
-              const fadeStart = 0.85; // Aumentamos el punto de inicio del fade
+              const fadeStart = 0.9;
               const fadeProgress = Math.max(0, (self.progress - fadeStart) / (1 - fadeStart));
-              // Aplicar easing al fade para suavidad en ambas direcciones
-              const easedFade = easeInOutCubic(fadeProgress);
-              botellaObject.material.opacity = Math.max(0, 1 - easedFade);
+              botellaObject.material.opacity = Math.max(0, Math.min(1, 1 - fadeProgress));
             }
           }
         });
@@ -227,7 +313,6 @@ window.onload = () => {
         console.log('Material or opacity property not available on bottle object');
       }
 
-      // Start the application
       app.play();
     })
     .catch((error) => {
