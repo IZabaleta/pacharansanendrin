@@ -15,33 +15,32 @@ const initialRotation = {
 let currentRotation = { ...initialRotation };
 
 // --- CONFIGURACIÓN DE ESCALA Y POSICIÓN ---
-// Ajusta estos valores para cambiar el tamaño y posición de la botella
 const CONFIG = {
-  // Posición vertical (más alto = más arriba, más bajo = más abajo)
-  yOffset: -1000,
+  // Posición vertical (ajustada para que sea visible en la web)
+  yOffset: 250,  // Volvemos a un valor que sabemos que funciona
   
-  // Escalas base para cada dispositivo (desktop reducido 10%)
+  // Escalas base para cada dispositivo
   scales: {
     mobile: 2.9,    // Sin cambios
     tablet: 7.0,    // Sin cambios
-    desktop: 6.5    // Reducido de 7.2 a 6.5 (-10%)
+    desktop: 6.5    // Sin cambios
   },
   
   // Porcentaje de altura que debe ocupar la botella en la pantalla
   heightPercentages: {
     mobile: 50,     // Sin cambios
     tablet: 66,     // Sin cambios
-    desktop: 40     // Reducido de 45 a 40 (-10%)
+    desktop: 40     // Sin cambios
   },
   
   // Ajustes específicos por dispositivo
   deviceAdjustments: {
     mobile: 0.85,   // Sin cambios
     tablet: 1.0,    // Sin cambios
-    desktop: 0.95   // Reducido de 1.0 a 0.95 para compensar
+    desktop: 0.95   // Sin cambios
   },
   
-  // Límites de escala (ajustados por dispositivo)
+  // Límites de escala
   scaleLimits: {
     mobile: {
       min: 2.5,     // Sin cambios
@@ -52,15 +51,15 @@ const CONFIG = {
       max: 8.4      // Sin cambios
     },
     desktop: {
-      min: 4.5,     // Reducido de 5.0 a 4.5 (-10%)
-      max: 7.7      // Reducido de 8.5 a 7.7 (-10%)
+      min: 4.5,     // Sin cambios
+      max: 7.7      // Sin cambios
     }
   }
 };
 
 // --- AJUSTE: Centrado vertical ---
 function getCenteredYPosition(offset = 0) {
-  return offset; // Usar directamente el offset sin añadir 0
+  return offset;
 }
 
 let currentPosition = { 
@@ -153,8 +152,8 @@ window.onload = () => {
   function animateInitialEntry(botellaObject) {
     if (!botellaObject) return;
 
-    // Configurar posición inicial (debajo de la posición final)
-    const startY = fixedYPosition - 300; // La botella empieza 300 unidades más abajo
+    // Configurar posición inicial (un poco más arriba para que sea visible)
+    const startY = fixedYPosition - 100; // Reducimos la distancia inicial
     botellaObject.position.set(currentPosition.x, startY, currentPosition.z);
     
     // Configurar opacidad inicial
@@ -186,6 +185,23 @@ window.onload = () => {
       botellaObject.position.set(currentPosition.x, currentPosition.y, currentPosition.z);
       const finalScale = baseScale * currentScale;
       botellaObject.scale.set(finalScale, finalScale, finalScale);
+
+      // Log cada 60 frames (aproximadamente cada segundo)
+      if (Math.random() < 0.016) {  // 1/60 probabilidad
+        console.log('Estado actual de la botella:', {
+          position: {
+            x: botellaObject.position.x,
+            y: botellaObject.position.y,
+            z: botellaObject.position.z
+          },
+          rotation: {
+            x: botellaObject.rotation.x * (180 / Math.PI),
+            y: botellaObject.rotation.y * (180 / Math.PI),
+            z: botellaObject.rotation.z * (180 / Math.PI)
+          },
+          scale: botellaObject.scale.x
+        });
+      }
     }
     requestAnimationFrame(animate);
   }
