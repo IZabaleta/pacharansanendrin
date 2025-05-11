@@ -13,7 +13,7 @@ document.querySelectorAll('.titular').forEach(titular => {
     opacity: 0,
     y: 50,
     stagger: 0.05,
-    duration: 1.5,
+    duration: 2.5,
     ease: "back.out(1.7)"
   });
 
@@ -37,7 +37,7 @@ document.querySelectorAll(".subtitulo").forEach(subtitulo => {
         },
         y: 20,
         opacity: 0,
-        duration: 2.2,
+        duration: 3.2,
         ease: "power4.out",
         stagger: 0.1
       });
@@ -64,7 +64,7 @@ document.fonts.ready.then(() => {
           },
           yPercent: 100,
           opacity: 0,
-          duration: 1.6,
+          duration: 2.6,
           stagger: 0.1,
           ease: "expo.out"
         });

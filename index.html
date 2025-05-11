@@ -7,24 +7,27 @@
 
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./imgs/favicon.png" type="image/png">
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.92/build/spline-viewer.js"></script>
-
-
-
+    
+    <!-- GSAP Scripts -->
+    <script src="./js/gsap-animaciones/gsap.min.js"></script>
+    <script src="./js/gsap-animaciones/SplitText.min.js"></script>
+    <script src="./js/gsap-animaciones/ScrollTrigger.min.js"></script>
+    <script src="./js/gsap-animaciones/ScrollToPlugin.min.js"></script>
+    <script src="./js/gsap-animaciones/ScrollSmoother.min.js"></script>
+    <script src="./js/gsap-animaciones/Draggable.min.js"></script>
+    
+    <!-- Spline Script -->
+    <script type="module" src="./js/spline.js"></script>
 </head>
 <body>
 
-    <!-- BOTELLA      
-    <div id="botella-pacharan">
-         P5.js maneja el canvas automáticamente 
-    </div> -->
+    <!-- BOTELLA -->
 
     
     <div class="threed">
-        <spline-viewer url="https://prod.spline.design/VkjLoeqnh6twow4i/scene.splinecode"></spline-viewer>
-      </div>
+        <canvas id="canvas3d" style="width: 100%; height: 100%;"></canvas>
+    </div>
       
-
     <!-- SECCIÓN HERO -->
         <section class="section-hero grid-layout .fade-section">
             <!-- Claim -->
@@ -219,23 +222,12 @@
 
     </section>
 
-        <!-- ANIMACIONES -->
-        <script src="./js/gsap-animaciones/gsap.min.js"></script>
-        <script src="./js/gsap-animaciones/SplitText.min.js"></script>
-        <script src="./js/gsap-animaciones/ScrollTrigger.min.js"></script>
-        <script src="./js/gsap-animaciones/ScrollToPlugin.min.js"></script>
-        <script src="./js/gsap-animaciones/ScrollSmoother.min.js"></script>
-        <script src="./js/gsap-animaciones/Draggable.min.js"></script>
-        <script src="./js/spline.js"></script>
-        <script src="./js/textos.js"></script>
-        <script src="./js/carrusel-cards.js"></script>
-        <script src="./js/fotos.js"></script>
-        <script src="./js/video.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
-        
-        
-
-        
-
+    <!-- Other Scripts -->
+    <script type="module" src="./js/spline.js"></script>
+    <script src="./js/textos.js"></script>
+    <script src="./js/carrusel-cards.js"></script>
+    <script src="./js/fotos.js"></script>
+    <script src="./js/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
 </body>
 </html>
